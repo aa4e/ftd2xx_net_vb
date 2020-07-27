@@ -34,7 +34,7 @@ Namespace FTD2XX_NET
         ''' Constructor for the <see cref="Ftdi"/> class.
         ''' </summary>
         Public Sub New()
-            Me.New("c:\temp\ftd2xx.dll")
+            Me.New("ftd2xx.dll")
         End Sub
 
         ''' <summary>
