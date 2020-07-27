@@ -2929,7 +2929,6 @@ Namespace FTD2XX_NET
             FT_FLAGS_HISPEED = 2UI
         End Enum
 
-        <Flags()>
         Public Enum FT_DRIVE_CURRENT As Byte
             FT_DRIVE_CURRENT_4MA = 4
             FT_DRIVE_CURRENT_8MA = 8
