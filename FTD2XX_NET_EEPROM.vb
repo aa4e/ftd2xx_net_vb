@@ -70,8 +70,8 @@ Namespace FTD2XX_NET
                 .Description = Marshal.AllocHGlobal(64),
                 .SerialNumber = Marshal.AllocHGlobal(16)
             }
-            Dim rdDlg As EeReadDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Read, IntPtr), GetType(EeReadDelegate)), EeReadDelegate)
-            Dim status As FT_STATUS = rdDlg(FtHandle, programData)
+            Dim dlg As EeReadDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Read, IntPtr), GetType(EeReadDelegate)), EeReadDelegate)
+            Dim status As FT_STATUS = dlg(FtHandle, programData)
             ee232b.Manufacturer = Marshal.PtrToStringAnsi(programData.Manufacturer)
             ee232b.ManufacturerID = Marshal.PtrToStringAnsi(programData.ManufacturerID)
             ee232b.Description = Marshal.PtrToStringAnsi(programData.Description)
@@ -80,6 +80,7 @@ Namespace FTD2XX_NET
             Marshal.FreeHGlobal(programData.ManufacturerID)
             Marshal.FreeHGlobal(programData.Description)
             Marshal.FreeHGlobal(programData.SerialNumber)
+            CheckErrors(status) 'статус проверяем после выгрузки всех неуправляемых ресурсов
             ee232b.VendorID = programData.VendorID
             ee232b.ProductID = programData.ProductID
             ee232b.MaxPower = programData.MaxPower
@@ -89,7 +90,6 @@ Namespace FTD2XX_NET
             ee232b.SerNumEnable = Convert.ToBoolean(programData.SerNumEnable)
             ee232b.USBVersionEnable = Convert.ToBoolean(programData.USBVersionEnable)
             ee232b.USBVersion = programData.USBVersion
-            CheckErrors(status)
             Return ee232b
         End Function
 
@@ -104,8 +104,8 @@ Namespace FTD2XX_NET
                 .Description = Marshal.AllocHGlobal(64),
                 .SerialNumber = Marshal.AllocHGlobal(16)
             }
-            Dim rdDlg As EeReadDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Read, IntPtr), GetType(EeReadDelegate)), EeReadDelegate)
-            Dim status As FT_STATUS = rdDlg(FtHandle, programData)
+            Dim dlg As EeReadDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Read, IntPtr), GetType(EeReadDelegate)), EeReadDelegate)
+            Dim status As FT_STATUS = dlg.Invoke(FtHandle, programData)
             ee2232.Manufacturer = Marshal.PtrToStringAnsi(programData.Manufacturer)
             ee2232.ManufacturerID = Marshal.PtrToStringAnsi(programData.ManufacturerID)
             ee2232.Description = Marshal.PtrToStringAnsi(programData.Description)
@@ -114,6 +114,7 @@ Namespace FTD2XX_NET
             Marshal.FreeHGlobal(programData.ManufacturerID)
             Marshal.FreeHGlobal(programData.Description)
             Marshal.FreeHGlobal(programData.SerialNumber)
+            CheckErrors(status) 'статус проверяем после выгрузки всех неуправляемых ресурсов
             ee2232.VendorID = programData.VendorID
             ee2232.ProductID = programData.ProductID
             ee2232.MaxPower = programData.MaxPower
@@ -133,7 +134,6 @@ Namespace FTD2XX_NET
             ee2232.IFBIsFifoTar = Convert.ToBoolean(programData.IFBIsFifoTar)
             ee2232.IFBIsFastSer = Convert.ToBoolean(programData.IFBIsFastSer)
             ee2232.BIsVCP = Convert.ToBoolean(programData.BIsVCP)
-            CheckErrors(status)
             Return ee2232
         End Function
 
@@ -158,6 +158,7 @@ Namespace FTD2XX_NET
             Marshal.FreeHGlobal(programData.ManufacturerID)
             Marshal.FreeHGlobal(programData.Description)
             Marshal.FreeHGlobal(programData.SerialNumber)
+            CheckErrors(status) 'статус проверяем после выгрузки всех неуправляемых ресурсов
             ee232r.VendorID = programData.VendorID
             ee232r.ProductID = programData.ProductID
             ee232r.MaxPower = programData.MaxPower
@@ -182,7 +183,6 @@ Namespace FTD2XX_NET
             ee232r.Cbus3 = programData.Cbus3
             ee232r.Cbus4 = programData.Cbus4
             ee232r.RIsD2XX = Convert.ToBoolean(programData.RIsD2XX)
-            CheckErrors(status)
             Return ee232r
         End Function
 
@@ -197,8 +197,8 @@ Namespace FTD2XX_NET
                 .Description = Marshal.AllocHGlobal(64),
                 .SerialNumber = Marshal.AllocHGlobal(16)
             }
-            Dim rdDlg As EeReadDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Read, IntPtr), GetType(EeReadDelegate)), EeReadDelegate)
-            Dim status As FT_STATUS = rdDlg(FtHandle, programData)
+            Dim dlg As EeReadDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Read, IntPtr), GetType(EeReadDelegate)), EeReadDelegate)
+            Dim status As FT_STATUS = dlg(FtHandle, programData)
             ee2232h.Manufacturer = Marshal.PtrToStringAnsi(programData.Manufacturer)
             ee2232h.ManufacturerID = Marshal.PtrToStringAnsi(programData.ManufacturerID)
             ee2232h.Description = Marshal.PtrToStringAnsi(programData.Description)
@@ -207,6 +207,7 @@ Namespace FTD2XX_NET
             Marshal.FreeHGlobal(programData.ManufacturerID)
             Marshal.FreeHGlobal(programData.Description)
             Marshal.FreeHGlobal(programData.SerialNumber)
+            CheckErrors(status) 'статус проверяем после выгрузки всех неуправляемых ресурсов
             ee2232h.VendorID = programData.VendorID
             ee2232h.ProductID = programData.ProductID
             ee2232h.MaxPower = programData.MaxPower
@@ -235,7 +236,6 @@ Namespace FTD2XX_NET
             ee2232h.IFBIsFastSer = Convert.ToBoolean(programData.IFBIsFastSer7)
             ee2232h.BIsVCP = Convert.ToBoolean(programData.BIsVCP7)
             ee2232h.PowerSaveEnable = Convert.ToBoolean(programData.PowerSaveEnable)
-            CheckErrors(status)
             Return ee2232h
         End Function
 
@@ -250,8 +250,8 @@ Namespace FTD2XX_NET
                 .Description = Marshal.AllocHGlobal(64),
                 .SerialNumber = Marshal.AllocHGlobal(16)
             }
-            Dim rdDlg As EeReadDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Read, IntPtr), GetType(EeReadDelegate)), EeReadDelegate)
-            Dim status As FT_STATUS = rdDlg(FtHandle, programData)
+            Dim dlg As EeReadDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Read, IntPtr), GetType(EeReadDelegate)), EeReadDelegate)
+            Dim status As FT_STATUS = dlg(FtHandle, programData)
             ee4232h.Manufacturer = Marshal.PtrToStringAnsi(programData.Manufacturer)
             ee4232h.ManufacturerID = Marshal.PtrToStringAnsi(programData.ManufacturerID)
             ee4232h.Description = Marshal.PtrToStringAnsi(programData.Description)
@@ -260,6 +260,7 @@ Namespace FTD2XX_NET
             Marshal.FreeHGlobal(programData.ManufacturerID)
             Marshal.FreeHGlobal(programData.Description)
             Marshal.FreeHGlobal(programData.SerialNumber)
+            CheckErrors(status) 'статус проверяем после выгрузки всех неуправляемых ресурсов
             ee4232h.VendorID = programData.VendorID
             ee4232h.ProductID = programData.ProductID
             ee4232h.MaxPower = programData.MaxPower
@@ -287,7 +288,6 @@ Namespace FTD2XX_NET
             ee4232h.BIsVCP = Convert.ToBoolean(programData.BIsVCP8)
             ee4232h.CIsVCP = Convert.ToBoolean(programData.CIsVCP8)
             ee4232h.DIsVCP = Convert.ToBoolean(programData.DIsVCP8)
-            CheckErrors(status)
             Return ee4232h
         End Function
 
@@ -302,8 +302,8 @@ Namespace FTD2XX_NET
                 .Description = Marshal.AllocHGlobal(64),
                 .SerialNumber = Marshal.AllocHGlobal(16)
             }
-            Dim rdDlg As EeReadDelegate = CType(Marshal.GetDelegateForFunctionPointer(New IntPtr(PFt_EE_Read), GetType(EeReadDelegate)), EeReadDelegate)
-            Dim status As FT_STATUS = rdDlg(FtHandle, programData)
+            Dim dlg As EeReadDelegate = CType(Marshal.GetDelegateForFunctionPointer(New IntPtr(PFt_EE_Read), GetType(EeReadDelegate)), EeReadDelegate)
+            Dim status As FT_STATUS = dlg(FtHandle, programData)
             ee232h.Manufacturer = Marshal.PtrToStringAnsi(programData.Manufacturer)
             ee232h.ManufacturerID = Marshal.PtrToStringAnsi(programData.ManufacturerID)
             ee232h.Description = Marshal.PtrToStringAnsi(programData.Description)
@@ -312,6 +312,7 @@ Namespace FTD2XX_NET
             Marshal.FreeHGlobal(programData.ManufacturerID)
             Marshal.FreeHGlobal(programData.Description)
             Marshal.FreeHGlobal(programData.SerialNumber)
+            CheckErrors(status) 'статус проверяем после выгрузки всех неуправляемых ресурсов
             ee232h.VendorID = programData.VendorID
             ee232h.ProductID = programData.ProductID
             ee232h.MaxPower = programData.MaxPower
@@ -325,16 +326,16 @@ Namespace FTD2XX_NET
             ee232h.ADSlowSlew = Convert.ToBoolean(programData.ADSlowSlewH)
             ee232h.ADSchmittInput = Convert.ToBoolean(programData.ADSchmittInputH)
             ee232h.ADDriveCurrent = programData.ADDriveCurrentH
-            ee232h.Cbus0 = programData.Cbus0H
-            ee232h.Cbus1 = programData.Cbus1H
-            ee232h.Cbus2 = programData.Cbus2H
-            ee232h.Cbus3 = programData.Cbus3H
-            ee232h.Cbus4 = programData.Cbus4H
-            ee232h.Cbus5 = programData.Cbus5H
-            ee232h.Cbus6 = programData.Cbus6H
-            ee232h.Cbus7 = programData.Cbus7H
-            ee232h.Cbus8 = programData.Cbus8H
-            ee232h.Cbus9 = programData.Cbus9H
+            ee232h.Cbus0 = CType(programData.Cbus0H, FT_232H_CBUS_OPTIONS)
+            ee232h.Cbus1 = CType(programData.Cbus1H, FT_232H_CBUS_OPTIONS)
+            ee232h.Cbus2 = CType(programData.Cbus2H, FT_232H_CBUS_OPTIONS)
+            ee232h.Cbus3 = CType(programData.Cbus3H, FT_232H_CBUS_OPTIONS)
+            ee232h.Cbus4 = CType(programData.Cbus4H, FT_232H_CBUS_OPTIONS)
+            ee232h.Cbus5 = CType(programData.Cbus5H, FT_232H_CBUS_OPTIONS)
+            ee232h.Cbus6 = CType(programData.Cbus6H, FT_232H_CBUS_OPTIONS)
+            ee232h.Cbus7 = CType(programData.Cbus7H, FT_232H_CBUS_OPTIONS)
+            ee232h.Cbus8 = CType(programData.Cbus8H, FT_232H_CBUS_OPTIONS)
+            ee232h.Cbus9 = CType(programData.Cbus9H, FT_232H_CBUS_OPTIONS)
             ee232h.IsFifo = Convert.ToBoolean(programData.IsFifoH)
             ee232h.IsFifoTar = Convert.ToBoolean(programData.IsFifoTarH)
             ee232h.IsFastSer = Convert.ToBoolean(programData.IsFastSerH)
@@ -344,13 +345,12 @@ Namespace FTD2XX_NET
             ee232h.FT1248FlowControl = Convert.ToBoolean(programData.FT1248FlowControlH)
             ee232h.IsVCP = Convert.ToBoolean(programData.IsVCPH)
             ee232h.PowerSaveEnable = Convert.ToBoolean(programData.PowerSaveEnableH)
-            CheckErrors(status)
             Return ee232h
         End Function
 
         Private Function ReadXSeriesEeprom() As FT_XSERIES_EEPROM_STRUCTURE
             Dim eeX As New FT_XSERIES_EEPROM_STRUCTURE()
-            Dim header As New FT_EEPROM_HEADER() With {.deviceType = 9UI}
+            Dim header As New FT_EEPROM_HEADER() With {.DeviceType = FT_DEVICE.FT_DEVICE_X_SERIES}
             Dim programData As New FT_XSERIES_DATA() With {.common = header}
             Dim strSize As Integer = Marshal.SizeOf(programData)
             Dim intPtr As IntPtr = Marshal.AllocHGlobal(strSize)
@@ -359,59 +359,57 @@ Namespace FTD2XX_NET
             Dim id As Byte() = New Byte(15) {}
             Dim descr As Byte() = New Byte(63) {}
             Dim sn As Byte() = New Byte(15) {}
-            Dim rdDlg As EepromReadDelegate = CType(Marshal.GetDelegateForFunctionPointer(New IntPtr(PFt_EEPROM_Read), GetType(EepromReadDelegate)), EepromReadDelegate)
-            Dim status As FT_STATUS = rdDlg(FtHandle, intPtr, CUInt(strSize), man, id, descr, sn)
-            If (status = FT_STATUS.FT_OK) Then
-                programData = CType(Marshal.PtrToStructure(intPtr, GetType(FT_XSERIES_DATA)), FT_XSERIES_DATA)
-                Dim utf8Encoding As New UTF8Encoding()
-                eeX.Manufacturer = utf8Encoding.GetString(man)
-                eeX.ManufacturerID = utf8Encoding.GetString(id)
-                eeX.Description = utf8Encoding.GetString(descr)
-                eeX.SerialNumber = utf8Encoding.GetString(sn)
-                eeX.VendorID = programData.common.VendorId
-                eeX.ProductID = programData.common.ProductId
-                eeX.MaxPower = programData.common.MaxPower
-                eeX.SelfPowered = Convert.ToBoolean(programData.common.SelfPowered)
-                eeX.RemoteWakeup = Convert.ToBoolean(programData.common.RemoteWakeup)
-                eeX.SerNumEnable = Convert.ToBoolean(programData.common.SerNumEnable)
-                eeX.PullDownEnable = Convert.ToBoolean(programData.common.PullDownEnable)
-                eeX.Cbus0 = programData.Cbus0
-                eeX.Cbus1 = programData.Cbus1
-                eeX.Cbus2 = programData.Cbus2
-                eeX.Cbus3 = programData.Cbus3
-                eeX.Cbus4 = programData.Cbus4
-                eeX.Cbus5 = programData.Cbus5
-                eeX.Cbus6 = programData.Cbus6
-                eeX.ACDriveCurrent = programData.ACDriveCurrent
-                eeX.ACSchmittInput = programData.ACSchmittInput
-                eeX.ACSlowSlew = programData.ACSlowSlew
-                eeX.ADDriveCurrent = programData.ADDriveCurrent
-                eeX.ADSchmittInput = programData.ADSchmittInput
-                eeX.ADSlowSlew = programData.ADSlowSlew
-                eeX.BCDDisableSleep = programData.BCDDisableSleep
-                eeX.BCDEnable = programData.BCDEnable
-                eeX.BCDForceCbusPWREN = programData.BCDForceCbusPWREN
-                eeX.FT1248Cpol = programData.FT1248Cpol
-                eeX.FT1248FlowControl = programData.FT1248FlowControl
-                eeX.FT1248Lsb = programData.FT1248Lsb
-                eeX.I2CDeviceId = programData.I2CDeviceId
-                eeX.I2CDisableSchmitt = programData.I2CDisableSchmitt
-                eeX.I2CSlaveAddress = programData.I2CSlaveAddress
-                eeX.InvertCTS = programData.InvertCTS
-                eeX.InvertDCD = programData.InvertDCD
-                eeX.InvertDSR = programData.InvertDSR
-                eeX.InvertDTR = programData.InvertDTR
-                eeX.InvertRI = programData.InvertRI
-                eeX.InvertRTS = programData.InvertRTS
-                eeX.InvertRXD = programData.InvertRXD
-                eeX.InvertTXD = programData.InvertTXD
-                eeX.PowerSaveEnable = programData.PowerSaveEnable
-                eeX.RS485EchoSuppress = programData.RS485EchoSuppress
-                eeX.IsVCP = programData.DriverType
-                Marshal.DestroyStructure(intPtr, GetType(FT_XSERIES_DATA))
-                Marshal.FreeHGlobal(intPtr)
-            End If
-            CheckErrors(status)
+            Dim dlg As EepromReadDelegate = CType(Marshal.GetDelegateForFunctionPointer(New IntPtr(PFt_EEPROM_Read), GetType(EepromReadDelegate)), EepromReadDelegate)
+            Dim status As FT_STATUS = dlg.Invoke(FtHandle, intPtr, CUInt(strSize), man, id, descr, sn)
+            programData = CType(Marshal.PtrToStructure(intPtr, GetType(FT_XSERIES_DATA)), FT_XSERIES_DATA)
+            Dim utf8Encoding As New UTF8Encoding()
+            eeX.Manufacturer = utf8Encoding.GetString(man)
+            eeX.ManufacturerID = utf8Encoding.GetString(id)
+            eeX.Description = utf8Encoding.GetString(descr)
+            eeX.SerialNumber = utf8Encoding.GetString(sn)
+            eeX.VendorID = programData.common.VendorId
+            eeX.ProductID = programData.common.ProductId
+            eeX.MaxPower = programData.common.MaxPower
+            eeX.SelfPowered = Convert.ToBoolean(programData.common.SelfPowered)
+            eeX.RemoteWakeup = Convert.ToBoolean(programData.common.RemoteWakeup)
+            eeX.SerNumEnable = Convert.ToBoolean(programData.common.SerNumEnable)
+            eeX.PullDownEnable = Convert.ToBoolean(programData.common.PullDownEnable)
+            eeX.Cbus0 = CType(programData.Cbus0, FT_XSERIES_CBUS_OPTIONS)
+            eeX.Cbus1 = CType(programData.Cbus1, FT_XSERIES_CBUS_OPTIONS)
+            eeX.Cbus2 = CType(programData.Cbus2, FT_XSERIES_CBUS_OPTIONS)
+            eeX.Cbus3 = CType(programData.Cbus3, FT_XSERIES_CBUS_OPTIONS)
+            eeX.Cbus4 = CType(programData.Cbus4, FT_XSERIES_CBUS_OPTIONS)
+            eeX.Cbus5 = CType(programData.Cbus5, FT_XSERIES_CBUS_OPTIONS)
+            eeX.Cbus6 = CType(programData.Cbus6, FT_XSERIES_CBUS_OPTIONS)
+            eeX.ACDriveCurrent = programData.ACDriveCurrent
+            eeX.ACSchmittInput = programData.ACSchmittInput
+            eeX.ACSlowSlew = programData.ACSlowSlew
+            eeX.ADDriveCurrent = programData.ADDriveCurrent
+            eeX.ADSchmittInput = programData.ADSchmittInput
+            eeX.ADSlowSlew = programData.ADSlowSlew
+            eeX.BCDDisableSleep = programData.BCDDisableSleep
+            eeX.BCDEnable = programData.BCDEnable
+            eeX.BCDForceCbusPWREN = programData.BCDForceCbusPWREN
+            eeX.FT1248Cpol = programData.FT1248Cpol
+            eeX.FT1248FlowControl = programData.FT1248FlowControl
+            eeX.FT1248Lsb = programData.FT1248Lsb
+            eeX.I2CDeviceId = programData.I2CDeviceId
+            eeX.I2CDisableSchmitt = programData.I2CDisableSchmitt
+            eeX.I2CSlaveAddress = programData.I2CSlaveAddress
+            eeX.InvertCTS = programData.InvertCTS
+            eeX.InvertDCD = programData.InvertDCD
+            eeX.InvertDSR = programData.InvertDSR
+            eeX.InvertDTR = programData.InvertDTR
+            eeX.InvertRI = programData.InvertRI
+            eeX.InvertRTS = programData.InvertRTS
+            eeX.InvertRXD = programData.InvertRXD
+            eeX.InvertTXD = programData.InvertTXD
+            eeX.PowerSaveEnable = programData.PowerSaveEnable
+            eeX.RS485EchoSuppress = programData.RS485EchoSuppress
+            eeX.IsVCP = programData.DriverType
+            Marshal.DestroyStructure(intPtr, GetType(FT_XSERIES_DATA))
+            Marshal.FreeHGlobal(intPtr)
+            CheckErrors(status) 'статус проверяем после выгрузки всех неуправляемых ресурсов
             Return eeX
         End Function
 
@@ -507,13 +505,13 @@ Namespace FTD2XX_NET
             programData.ManufacturerID = Marshal.StringToHGlobalAnsi(ee232b.ManufacturerID)
             programData.Description = Marshal.StringToHGlobalAnsi(ee232b.Description)
             programData.SerialNumber = Marshal.StringToHGlobalAnsi(ee232b.SerialNumber)
-            Dim prgDlg As EeProgramDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Program, IntPtr), GetType(EeProgramDelegate)), EeProgramDelegate)
-            status = prgDlg(FtHandle, programData)
+            Dim dlg As EeProgramDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Program, IntPtr), GetType(EeProgramDelegate)), EeProgramDelegate)
+            status = dlg(FtHandle, programData)
             Marshal.FreeHGlobal(programData.Manufacturer)
             Marshal.FreeHGlobal(programData.ManufacturerID)
             Marshal.FreeHGlobal(programData.Description)
             Marshal.FreeHGlobal(programData.SerialNumber)
-            CheckErrors(status)
+            CheckErrors(status) 'статус проверяем после освобождения всех неуправляемых ресурсов
         End Sub
 
         Private Sub WriteFt2232Eeprom(ee2232 As FT2232_EEPROM_STRUCTURE)
@@ -566,13 +564,13 @@ Namespace FTD2XX_NET
             programData.ManufacturerID = Marshal.StringToHGlobalAnsi(ee2232.ManufacturerID)
             programData.Description = Marshal.StringToHGlobalAnsi(ee2232.Description)
             programData.SerialNumber = Marshal.StringToHGlobalAnsi(ee2232.SerialNumber)
-            Dim prgDlg As EeProgramDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Program, IntPtr), GetType(EeProgramDelegate)), EeProgramDelegate)
-            status = prgDlg(FtHandle, programData)
+            Dim dlg As EeProgramDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Program, IntPtr), GetType(EeProgramDelegate)), EeProgramDelegate)
+            status = dlg(FtHandle, programData)
             Marshal.FreeHGlobal(programData.Manufacturer)
             Marshal.FreeHGlobal(programData.ManufacturerID)
             Marshal.FreeHGlobal(programData.Description)
             Marshal.FreeHGlobal(programData.SerialNumber)
-            CheckErrors(status)
+            CheckErrors(status) 'статус проверяем после освобождения всех неуправляемых ресурсов
         End Sub
 
         Private Sub WriteFt232rEeprom(ee232r As FT232R_EEPROM_STRUCTURE)
@@ -629,13 +627,13 @@ Namespace FTD2XX_NET
             programData.ManufacturerID = Marshal.StringToHGlobalAnsi(ee232r.ManufacturerID)
             programData.Description = Marshal.StringToHGlobalAnsi(ee232r.Description)
             programData.SerialNumber = Marshal.StringToHGlobalAnsi(ee232r.SerialNumber)
-            Dim prgDlg As EeProgramDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Program, IntPtr), GetType(EeProgramDelegate)), EeProgramDelegate)
-            status = prgDlg(FtHandle, programData)
+            Dim dlg As EeProgramDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Program, IntPtr), GetType(EeProgramDelegate)), EeProgramDelegate)
+            status = dlg(FtHandle, programData)
             Marshal.FreeHGlobal(programData.Manufacturer)
             Marshal.FreeHGlobal(programData.ManufacturerID)
             Marshal.FreeHGlobal(programData.Description)
             Marshal.FreeHGlobal(programData.SerialNumber)
-            CheckErrors(status)
+            CheckErrors(status) 'статус проверяем после освобождения всех неуправляемых ресурсов
         End Sub
 
         Private Sub WriteFt2232hEeprom(ee2232h As FT2232H_EEPROM_STRUCTURE)
@@ -696,13 +694,13 @@ Namespace FTD2XX_NET
             programData.ManufacturerID = Marshal.StringToHGlobalAnsi(ee2232h.ManufacturerID)
             programData.Description = Marshal.StringToHGlobalAnsi(ee2232h.Description)
             programData.SerialNumber = Marshal.StringToHGlobalAnsi(ee2232h.SerialNumber)
-            Dim prgDlg As EeProgramDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Program, IntPtr), GetType(EeProgramDelegate)), EeProgramDelegate)
-            status = prgDlg(FtHandle, programData)
+            Dim dlg As EeProgramDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Program, IntPtr), GetType(EeProgramDelegate)), EeProgramDelegate)
+            status = dlg(FtHandle, programData)
             Marshal.FreeHGlobal(programData.Manufacturer)
             Marshal.FreeHGlobal(programData.ManufacturerID)
             Marshal.FreeHGlobal(programData.Description)
             Marshal.FreeHGlobal(programData.SerialNumber)
-            CheckErrors(status)
+            CheckErrors(status) 'статус проверяем после освобождения всех неуправляемых ресурсов
         End Sub
 
         Private Sub WriteFt4232hEeprom(ee4232h As FT4232H_EEPROM_STRUCTURE)
@@ -762,13 +760,13 @@ Namespace FTD2XX_NET
             programData.ManufacturerID = Marshal.StringToHGlobalAnsi(ee4232h.ManufacturerID)
             programData.Description = Marshal.StringToHGlobalAnsi(ee4232h.Description)
             programData.SerialNumber = Marshal.StringToHGlobalAnsi(ee4232h.SerialNumber)
-            Dim prgDlg As EeProgramDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Program, IntPtr), GetType(EeProgramDelegate)), EeProgramDelegate)
-            status = prgDlg(FtHandle, programData)
+            Dim dlg As EeProgramDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Program, IntPtr), GetType(EeProgramDelegate)), EeProgramDelegate)
+            status = dlg(FtHandle, programData)
             Marshal.FreeHGlobal(programData.Manufacturer)
             Marshal.FreeHGlobal(programData.ManufacturerID)
             Marshal.FreeHGlobal(programData.Description)
             Marshal.FreeHGlobal(programData.SerialNumber)
-            CheckErrors(status)
+            CheckErrors(status) 'статус проверяем после освобождения всех неуправляемых ресурсов
         End Sub
 
         Private Sub WriteFt232hEeprom(ee232h As FT232H_EEPROM_STRUCTURE)
@@ -809,16 +807,16 @@ Namespace FTD2XX_NET
                 .ADSlowSlewH = Convert.ToByte(ee232h.ADSlowSlew),
                 .ADSchmittInputH = Convert.ToByte(ee232h.ADSchmittInput),
                 .ADDriveCurrentH = ee232h.ADDriveCurrent,
-                .Cbus0H = Convert.ToByte(ee232h.Cbus0),
-                .Cbus1H = Convert.ToByte(ee232h.Cbus1),
-                .Cbus2H = Convert.ToByte(ee232h.Cbus2),
-                .Cbus3H = Convert.ToByte(ee232h.Cbus3),
-                .Cbus4H = Convert.ToByte(ee232h.Cbus4),
-                .Cbus5H = Convert.ToByte(ee232h.Cbus5),
-                .Cbus6H = Convert.ToByte(ee232h.Cbus6),
-                .Cbus7H = Convert.ToByte(ee232h.Cbus7),
-                .Cbus8H = Convert.ToByte(ee232h.Cbus8),
-                .Cbus9H = Convert.ToByte(ee232h.Cbus9),
+                .Cbus0H = CType(ee232h.Cbus0, FT_CBUS_OPTIONS),
+                .Cbus1H = CType(ee232h.Cbus1, FT_CBUS_OPTIONS),
+                .Cbus2H = CType(ee232h.Cbus2, FT_CBUS_OPTIONS),
+                .Cbus3H = CType(ee232h.Cbus3, FT_CBUS_OPTIONS),
+                .Cbus4H = CType(ee232h.Cbus4, FT_CBUS_OPTIONS),
+                .Cbus5H = CType(ee232h.Cbus5, FT_CBUS_OPTIONS),
+                .Cbus6H = CType(ee232h.Cbus6, FT_CBUS_OPTIONS),
+                .Cbus7H = CType(ee232h.Cbus7, FT_CBUS_OPTIONS),
+                .Cbus8H = CType(ee232h.Cbus8, FT_CBUS_OPTIONS),
+                .Cbus9H = CType(ee232h.Cbus9, FT_CBUS_OPTIONS),
                 .IsFifoH = Convert.ToByte(ee232h.IsFifo),
                 .IsFifoTarH = Convert.ToByte(ee232h.IsFifoTar),
                 .IsFastSerH = Convert.ToByte(ee232h.IsFastSer),
@@ -833,13 +831,13 @@ Namespace FTD2XX_NET
             programData.ManufacturerID = Marshal.StringToHGlobalAnsi(ee232h.ManufacturerID)
             programData.Description = Marshal.StringToHGlobalAnsi(ee232h.Description)
             programData.SerialNumber = Marshal.StringToHGlobalAnsi(ee232h.SerialNumber)
-            Dim prgDlg As EeProgramDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Program, IntPtr), GetType(EeProgramDelegate)), EeProgramDelegate)
-            status = prgDlg(FtHandle, programData)
+            Dim dlg As EeProgramDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EE_Program, IntPtr), GetType(EeProgramDelegate)), EeProgramDelegate)
+            status = dlg(FtHandle, programData)
             Marshal.FreeHGlobal(programData.Manufacturer)
             Marshal.FreeHGlobal(programData.ManufacturerID)
             Marshal.FreeHGlobal(programData.Description)
             Marshal.FreeHGlobal(programData.SerialNumber)
-            CheckErrors(status)
+            CheckErrors(status) 'статус проверяем после освобождения всех неуправляемых ресурсов
         End Sub
 
         Private Sub WriteXSeriesEeprom(eeX As FT_XSERIES_EEPROM_STRUCTURE)
@@ -860,13 +858,13 @@ Namespace FTD2XX_NET
                 eeX.SerialNumber = eeX.SerialNumber.Substring(0, 16)
             End If
             Dim programData As New FT_XSERIES_DATA() With {
-                .Cbus0 = eeX.Cbus0,
-                .Cbus1 = eeX.Cbus1,
-                .Cbus2 = eeX.Cbus2,
-                .Cbus3 = eeX.Cbus3,
-                .Cbus4 = eeX.Cbus4,
-                .Cbus5 = eeX.Cbus5,
-                .Cbus6 = eeX.Cbus6,
+                .Cbus0 = CType(eeX.Cbus0, FT_CBUS_OPTIONS),
+                .Cbus1 = CType(eeX.Cbus1, FT_CBUS_OPTIONS),
+                .Cbus2 = CType(eeX.Cbus2, FT_CBUS_OPTIONS),
+                .Cbus3 = CType(eeX.Cbus3, FT_CBUS_OPTIONS),
+                .Cbus4 = CType(eeX.Cbus4, FT_CBUS_OPTIONS),
+                .Cbus5 = CType(eeX.Cbus5, FT_CBUS_OPTIONS),
+                .Cbus6 = CType(eeX.Cbus6, FT_CBUS_OPTIONS),
                 .ACDriveCurrent = eeX.ACDriveCurrent,
                 .ACSchmittInput = eeX.ACSchmittInput,
                 .ACSlowSlew = eeX.ACSlowSlew,
@@ -894,14 +892,14 @@ Namespace FTD2XX_NET
                 .RS485EchoSuppress = eeX.RS485EchoSuppress,
                 .DriverType = eeX.IsVCP
             }
-            programData.common.deviceType = 9UI
-            programData.common.VendorId = eeX.VendorID
-            programData.common.ProductId = eeX.ProductID
-            programData.common.MaxPower = eeX.MaxPower
-            programData.common.SelfPowered = Convert.ToByte(eeX.SelfPowered)
-            programData.common.RemoteWakeup = Convert.ToByte(eeX.RemoteWakeup)
-            programData.common.SerNumEnable = Convert.ToByte(eeX.SerNumEnable)
-            programData.common.PullDownEnable = Convert.ToByte(eeX.PullDownEnable)
+            programData.Common.DeviceType = FT_DEVICE.FT_DEVICE_X_SERIES
+            programData.Common.VendorId = eeX.VendorID
+            programData.Common.ProductId = eeX.ProductID
+            programData.Common.MaxPower = eeX.MaxPower
+            programData.Common.SelfPowered = Convert.ToByte(eeX.SelfPowered)
+            programData.Common.RemoteWakeup = Convert.ToByte(eeX.RemoteWakeup)
+            programData.Common.SerNumEnable = Convert.ToByte(eeX.SerNumEnable)
+            programData.Common.PullDownEnable = Convert.ToByte(eeX.PullDownEnable)
             Dim utf8Encoding As UTF8Encoding = New UTF8Encoding()
             Dim manufacturer As Byte() = utf8Encoding.GetBytes(eeX.Manufacturer)
             Dim manufacturerID As Byte() = utf8Encoding.GetBytes(eeX.ManufacturerID)
@@ -910,9 +908,9 @@ Namespace FTD2XX_NET
             Dim programDataSize As Integer = Marshal.SizeOf(programData)
             Dim ptr As IntPtr = Marshal.AllocHGlobal(programDataSize)
             Marshal.StructureToPtr(programData, ptr, False)
-            Dim prgDlg As EepromProgramDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(Me.PFt_EEPROM_Program, IntPtr), GetType(EepromProgramDelegate)), EepromProgramDelegate)
-            status = prgDlg(FtHandle, ptr, CUInt(programDataSize), manufacturer, manufacturerID, description, serialnumber)
-            CheckErrors(status)
+            Dim dlg As EepromProgramDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(PFt_EEPROM_Program, IntPtr), GetType(EepromProgramDelegate)), EepromProgramDelegate)
+            status = dlg(FtHandle, ptr, CUInt(programDataSize), manufacturer, manufacturerID, description, serialnumber)
+            CheckErrors(status) 'статус проверяем после освобождения всех неуправляемых ресурсов
         End Sub
 
 #End Region '/ЗАПИСЬ ППЗУ
@@ -987,13 +985,17 @@ Namespace FTD2XX_NET
             Public PnP As UShort
             Public SelfPowered As UShort
             Public RemoteWakeup As UShort
+
+            'FT232B extensions
             Public Rev4 As Byte
             Public IsoIn As Byte
             Public IsoOut As Byte
             Public PullDownEnable As Byte
             Public SerNumEnable As Byte
             Public USBVersionEnable As Byte
-            Public USBVersion As UShort
+            Public USBVersion As USB_VERSION
+
+            'FT2232D extensions
             Public Rev5 As Byte
             Public IsoInA As Byte
             Public IsoInB As Byte
@@ -1002,7 +1004,7 @@ Namespace FTD2XX_NET
             Public PullDownEnable5 As Byte
             Public SerNumEnable5 As Byte
             Public USBVersionEnable5 As Byte
-            Public USBVersion5 As UShort
+            Public USBVersion5 As USB_VERSION
             Public AIsHighCurrent As Byte
             Public BIsHighCurrent As Byte
             Public IFAIsFifo As Byte
@@ -1012,147 +1014,213 @@ Namespace FTD2XX_NET
             Public IFBIsFifo As Byte
             Public IFBIsFifoTar As Byte
             Public IFBIsFastSer As Byte
+
+            'FT232R extensions
             Public BIsVCP As Byte
             Public UseExtOsc As Byte
             Public HighDriveIOs As Byte
             Public EndpointSize As Byte
             Public PullDownEnableR As Byte
             Public SerNumEnableR As Byte
-            Public InvertTXD As Byte
-            Public InvertRXD As Byte
-            Public InvertRTS As Byte
-            Public InvertCTS As Byte
-            Public InvertDTR As Byte
-            Public InvertDSR As Byte
-            Public InvertDCD As Byte
-            Public InvertRI As Byte
-            Public Cbus0 As Byte
-            Public Cbus1 As Byte
-            Public Cbus2 As Byte
-            Public Cbus3 As Byte
-            Public Cbus4 As Byte
-            Public RIsD2XX As Byte
+            Public InvertTXD As Byte 'non-zero if invert TXD
+            Public InvertRXD As Byte 'non-zero if invert RXD
+            Public InvertRTS As Byte 'non-zero if invert RTS
+            Public InvertCTS As Byte 'non-zero if invert CTS
+            Public InvertDTR As Byte 'non-zero if invert DTR
+            Public InvertDSR As Byte 'non-zero if invert DSR
+            Public InvertDCD As Byte 'non-zero if invert DCD
+            Public InvertRI As Byte  'non-zero if invert RI
+            Public Cbus0 As FT_CBUS_OPTIONS 'Cbus Mux control - Ignored for FT245R
+            Public Cbus1 As FT_CBUS_OPTIONS 'Cbus Mux control - Ignored for FT245R
+            Public Cbus2 As FT_CBUS_OPTIONS 'Cbus Mux control - Ignored for FT245R
+            Public Cbus3 As FT_CBUS_OPTIONS 'Cbus Mux control - Ignored for FT245R
+            Public Cbus4 As FT_CBUS_OPTIONS 'Cbus Mux control - Ignored for FT245R
+            Public RIsD2XX As Byte 'Default to loading VCP
+
+            'FT2232H extensions
             Public PullDownEnable7 As Byte
             Public SerNumEnable7 As Byte
-            Public ALSlowSlew As Byte
-            Public ALSchmittInput As Byte
+            Public ALSlowSlew As Byte    'non-zero if AL pins have slow slew
+            Public ALSchmittInput As Byte 'non-zero if AL pins are Schmitt input
             Public ALDriveCurrent As FT_DRIVE_CURRENT
-            Public AHSlowSlew As Byte
-            Public AHSchmittInput As Byte
+            Public AHSlowSlew As Byte    'non-zero if AH pins have slow slew
+            Public AHSchmittInput As Byte 'non-zero if AH pins are Schmitt input
             Public AHDriveCurrent As FT_DRIVE_CURRENT
-            Public BLSlowSlew As Byte
-            Public BLSchmittInput As Byte
+            Public BLSlowSlew As Byte    'non-zero if BL pins have slow slew
+            Public BLSchmittInput As Byte 'non-zero if BL pins are Schmitt input
             Public BLDriveCurrent As FT_DRIVE_CURRENT
-            Public BHSlowSlew As Byte
-            Public BHSchmittInput As Byte
+            Public BHSlowSlew As Byte    'non-zero if BH pins have slow slew
+            Public BHSchmittInput As Byte 'non-zero if BH pins are Schmitt input
             Public BHDriveCurrent As FT_DRIVE_CURRENT
-            Public IFAIsFifo7 As Byte
-            Public IFAIsFifoTar7 As Byte
-            Public IFAIsFastSer7 As Byte
-            Public AIsVCP7 As Byte
-            Public IFBIsFifo7 As Byte
-            Public IFBIsFifoTar7 As Byte
-            Public IFBIsFastSer7 As Byte
-            Public BIsVCP7 As Byte
-            Public PowerSaveEnable As Byte
+            Public IFAIsFifo7 As Byte     'non-zero if interface is 245 FIFO
+            Public IFAIsFifoTar7 As Byte  'non-zero if interface is 245 FIFO CPU target
+            Public IFAIsFastSer7 As Byte  'non-zero if interface is Fast serial
+            Public AIsVCP7 As Byte        'non-zero if interface is to use VCP drivers
+            Public IFBIsFifo7 As Byte     'non-zero if interface is 245 FIFO
+            Public IFBIsFifoTar7 As Byte  'non-zero if interface is 245 FIFO CPU target
+            Public IFBIsFastSer7 As Byte  'non-zero if interface is Fast serial
+            Public BIsVCP7 As Byte        'non-zero if interface is to use VCP drivers
+            Public PowerSaveEnable As Byte 'non-zero if using BCBUS7 to save power for self-powered designs
+
+            'FT4232H extensions
             Public PullDownEnable8 As Byte
             Public SerNumEnable8 As Byte
-            Public ASlowSlew As Byte
-            Public ASchmittInput As Byte
+            Public ASlowSlew As Byte    'non-zero if AL pins have slow slew
+            Public ASchmittInput As Byte 'non-zero if AL pins are Schmitt input
             Public ADriveCurrent As FT_DRIVE_CURRENT
-            Public BSlowSlew As Byte
-            Public BSchmittInput As Byte
+            Public BSlowSlew As Byte    'non-zero if AH pins have slow slew
+            Public BSchmittInput As Byte 'non-zero if AH pins are Schmitt input
             Public BDriveCurrent As FT_DRIVE_CURRENT
-            Public CSlowSlew As Byte
-            Public CSchmittInput As Byte
+            Public CSlowSlew As Byte    'non-zero if BL pins have slow slew
+            Public CSchmittInput As Byte 'non-zero if BL pins are Schmitt input
             Public CDriveCurrent As FT_DRIVE_CURRENT
-            Public DSlowSlew As Byte
-            Public DSchmittInput As Byte
+            Public DSlowSlew As Byte    'non-zero if BH pins have slow slew
+            Public DSchmittInput As Byte 'non-zero if BH pins are Schmitt input
             Public DDriveCurrent As FT_DRIVE_CURRENT
             Public ARIIsTXDEN As Byte
             Public BRIIsTXDEN As Byte
             Public CRIIsTXDEN As Byte
             Public DRIIsTXDEN As Byte
-            Public AIsVCP8 As Byte
-            Public BIsVCP8 As Byte
-            Public CIsVCP8 As Byte
-            Public DIsVCP8 As Byte
-            Public PullDownEnableH As Byte
-            Public SerNumEnableH As Byte
-            Public ACSlowSlewH As Byte
-            Public ACSchmittInputH As Byte
+            Public AIsVCP8 As Byte 'non-zero if interface is to use VCP drivers
+            Public BIsVCP8 As Byte 'non-zero if interface is to use VCP drivers
+            Public CIsVCP8 As Byte 'non-zero if interface is to use VCP drivers
+            Public DIsVCP8 As Byte 'non-zero if interface is to use VCP drivers
+
+            'FT232H extensions
+            Public PullDownEnableH As Byte 'non-zero if pull down enabled
+            Public SerNumEnableH As Byte  'non-zero if serial number to be used
+            Public ACSlowSlewH As Byte    'non-zero if AC pins have slow slew
+            Public ACSchmittInputH As Byte 'non-zero if AC pins are Schmitt input
             Public ACDriveCurrentH As FT_DRIVE_CURRENT
-            Public ADSlowSlewH As Byte
-            Public ADSchmittInputH As Byte
+            Public ADSlowSlewH As Byte    'non-zero if AD pins have slow slew
+            Public ADSchmittInputH As Byte 'non-zero if AD pins are Schmitt input
             Public ADDriveCurrentH As FT_DRIVE_CURRENT
-            Public Cbus0H As Byte
-            Public Cbus1H As Byte
-            Public Cbus2H As Byte
-            Public Cbus3H As Byte
-            Public Cbus4H As Byte
-            Public Cbus5H As Byte
-            Public Cbus6H As Byte
-            Public Cbus7H As Byte
-            Public Cbus8H As Byte
-            Public Cbus9H As Byte
-            Public IsFifoH As Byte
-            Public IsFifoTarH As Byte
-            Public IsFastSerH As Byte
-            Public IsFT1248H As Byte
-            Public FT1248CpolH As Byte
-            Public FT1248LsbH As Byte
-            Public FT1248FlowControlH As Byte
-            Public IsVCPH As Byte
-            Public PowerSaveEnableH As Byte
+            Public Cbus0H As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus1H As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus2H As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus3H As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus4H As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus5H As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus6H As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus7H As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus8H As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus9H As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public IsFifoH As Byte     'non-zero if interface is 245 FIFO
+            Public IsFifoTarH As Byte  'non-zero if interface is 245 FIFO CPU target
+            Public IsFastSerH As Byte  'non-zero if interface is Fast serial
+            Public IsFT1248H As Byte   'non-zero if interface is FT1248
+            Public FT1248CpolH As Byte 'FT1248 clock polarity
+            Public FT1248LsbH As Byte  'FT1248 data is LSB (1) or MSB (0)
+            Public FT1248FlowControlH As Byte 'FT1248 flow control enable
+            Public IsVCPH As Byte          'non-zero if interface is to use VCP drivers
+            Public PowerSaveEnableH As Byte 'non-zero if using ACBUS7 to save power for self-powered designs
         End Structure
 
         <StructLayout(LayoutKind.Sequential, Pack:=4)>
         Private Structure FT_EEPROM_HEADER
-            Public deviceType As UInteger
-            Public VendorId As UShort
-            Public ProductId As UShort
-            Public SerNumEnable As Byte
+            Public DeviceType As FT_DEVICE 'FTxxxx device type to be programmed
+
+            'Device descriptor options
+            Public VendorId As UShort  '0x0403
+            Public ProductId As UShort '0x6001
+            Public SerNumEnable As Byte 'non-zero if serial number to be used
+
+            'Config descriptor options
+            ''' <summary>
+            ''' 0...500.
+            ''' </summary>
             Public MaxPower As UShort
+            ''' <summary>
+            ''' 1 = self powered, 0 = bus powered.
+            ''' </summary>
             Public SelfPowered As Byte
+            ''' <summary>
+            ''' 1 = capable, 0 = not capable.
+            ''' </summary>
             Public RemoteWakeup As Byte
-            Public PullDownEnable As Byte
+
+            'Hardware options
+            Public PullDownEnable As Byte 'non-zero if pull down in suspend enabled
         End Structure
 
         <StructLayout(LayoutKind.Sequential, Pack:=4)>
         Private Structure FT_XSERIES_DATA
-            Public common As FT_EEPROM_HEADER
-            Public ACSlowSlew As Byte
-            Public ACSchmittInput As Byte
+            Public Common As FT_EEPROM_HEADER
+            Public ACSlowSlew As Byte    'non-zero if AC bus pins have slow slew
+            Public ACSchmittInput As Byte 'non-zero if AC bus pins are Schmitt input
             Public ACDriveCurrent As FT_DRIVE_CURRENT
-            Public ADSlowSlew As Byte
-            Public ADSchmittInput As Byte
+            Public ADSlowSlew As Byte    'non-zero if AD bus pins have slow slew
+            Public ADSchmittInput As Byte 'non-zero if AD bus pins are Schmitt input
             Public ADDriveCurrent As FT_DRIVE_CURRENT
-            Public Cbus0 As Byte
-            Public Cbus1 As Byte
-            Public Cbus2 As Byte
-            Public Cbus3 As Byte
-            Public Cbus4 As Byte
-            Public Cbus5 As Byte
-            Public Cbus6 As Byte
-            Public InvertTXD As Byte
-            Public InvertRXD As Byte
-            Public InvertRTS As Byte
-            Public InvertCTS As Byte
-            Public InvertDTR As Byte
-            Public InvertDSR As Byte
-            Public InvertDCD As Byte
-            Public InvertRI As Byte
+
+            'CBUS options
+            Public Cbus0 As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus1 As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus2 As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus3 As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus4 As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus5 As FT_CBUS_OPTIONS 'Cbus Mux control
+            Public Cbus6 As FT_CBUS_OPTIONS 'Cbus Mux control
+
+            'UART signal options
+            Public InvertTXD As Byte 'non-zero if invert TXD
+            Public InvertRXD As Byte 'non-zero if invert RXD
+            Public InvertRTS As Byte 'non-zero if invert RTS
+            Public InvertCTS As Byte 'non-zero if invert CTS
+            Public InvertDTR As Byte 'non-zero if invert DTR
+            Public InvertDSR As Byte 'non-zero if invert DSR
+            Public InvertDCD As Byte 'non-zero if invert DCD
+            Public InvertRI As Byte ' non-zero if invert RI
+
+            ' Battery Charge Detect options
+            ''' <summary>
+            ''' Enable Battery Charger Detection.
+            ''' </summary>
             Public BCDEnable As Byte
+            ''' <summary>
+            ''' Asserts the power enable signal on CBUS when charging port detected.
+            ''' </summary>
             Public BCDForceCbusPWREN As Byte
+            ''' <summary>
+            ''' Forces the device never to go into sleep mode.
+            ''' </summary>
             Public BCDDisableSleep As Byte
+
+            ' I2C options
+
+            ''' <summary>
+            ''' I2C slave device address.
+            ''' </summary>
             Public I2CSlaveAddress As UShort
+            ''' <summary>
+            ''' I2C device ID.
+            ''' </summary>
             Public I2CDeviceId As UInteger
+            ''' <summary>
+            ''' Disable I2C Schmitt trigger.
+            ''' </summary>
             Public I2CDisableSchmitt As Byte
+
+            ' FT1248 options
+
+            ''' <summary>
+            ''' FT1248 clock polarity - clock idle high (1) or clock idle low (0)
+            ''' </summary>
             Public FT1248Cpol As Byte
+            ''' <summary>
+            ''' FT1248 data is LSB (1) or MSB (0).
+            ''' </summary>
             Public FT1248Lsb As Byte
+            ''' <summary>
+            ''' FT1248 flow control enable.
+            ''' </summary>
             Public FT1248FlowControl As Byte
+
+            'Hardware options
             Public RS485EchoSuppress As Byte
             Public PowerSaveEnable As Byte
+
+            'Driver option
             Public DriverType As Byte
         End Structure
 
@@ -1160,178 +1228,617 @@ Namespace FTD2XX_NET
             Public VendorID As UShort = &H403US
             Public ProductID As UShort = &H6001US
             Public Manufacturer As String = "FTDI"
+            ''' <summary>
+            ''' Аббревиатура производителя, которая используется как префикс в автоматически генерируемых серийных номерах.
+            ''' </summary>
             Public ManufacturerID As String = "FT"
             Public Description As String = "USB-Serial Converter"
             Public SerialNumber As String = ""
-            Public MaxPower As UShort = 144US
+            ''' <summary>
+            ''' Максимальная мощность, требующаяся устройству.
+            ''' </summary>
+            Public MaxPower As UShort = &H90
+            ''' <summary>
+            ''' Показывает, устройство имеет свой собственный источник питания (self-powered) или берёт питание от USB порта (bus-powered).
+            ''' </summary>
             Public SelfPowered As Boolean
+            ''' <summary>
+            ''' Определяет, может ли устрйоство выводить ПК из режима ожидания, переключая линию RI.
+            ''' </summary>
             Public RemoteWakeup As Boolean
         End Class
 
         Public Class FT232B_EEPROM_STRUCTURE : Inherits FT_EEPROM_DATA
+            ''' <summary>
+            ''' Определяет, притянуты ли выводы IO, когда устройство в режиме ожидания.
+            ''' </summary>
             Public PullDownEnable As Boolean
+            ''' <summary>
+            ''' Determines if the serial number is enabled.
+            ''' </summary>
             Public SerNumEnable As Boolean = True
+            ''' <summary>
+            ''' Determines if the USB version number is enabled.
+            ''' </summary>
             Public USBVersionEnable As Boolean = True
-            Public USBVersion As UShort = 512US
+            ''' <summary>
+            ''' The USB version number.
+            ''' </summary>
+            Public USBVersion As USB_VERSION = USB_VERSION.VER_20
         End Class
 
         Public Class FT2232_EEPROM_STRUCTURE : Inherits FT_EEPROM_DATA
+            ''' <summary>
+            ''' Определяет, притянуты ли выводы IO, когда устройство в режиме ожидания.
+            ''' </summary>
             Public PullDownEnable As Boolean
+            ''' <summary>
+            ''' Determines if the serial number is enabled.
+            ''' </summary>
             Public SerNumEnable As Boolean = True
+            ''' <summary>
+            ''' Determines if the USB version number is enabled.
+            ''' </summary>
             Public USBVersionEnable As Boolean = True
-            Public USBVersion As UShort = 512US
+            ''' <summary>
+            ''' The USB version number.
+            ''' </summary>
+            Public USBVersion As USB_VERSION = USB_VERSION.VER_20
+            ''' <summary>
+            ''' Enables high current IOs on channel A.
+            ''' </summary>
             Public AIsHighCurrent As Boolean
+            ''' <summary>
+            ''' Enables high current IOs on channel B.
+            ''' </summary>
             Public BIsHighCurrent As Boolean
+            ''' <summary>
+            ''' Determines if channel A is in FIFO mode.
+            ''' </summary>
             Public IFAIsFifo As Boolean
+            ''' <summary>
+            ''' Determines if channel A is in FIFO target mode.
+            ''' </summary>
             Public IFAIsFifoTar As Boolean
+            ''' <summary>
+            ''' Determines if channel A is in fast serial mode.
+            ''' </summary>
             Public IFAIsFastSer As Boolean
+            ''' <summary>
+            ''' Determines if channel A loads the VCP driver.
+            ''' </summary>
             Public AIsVCP As Boolean = True
+            ''' <summary>
+            ''' Determines if channel B is in FIFO mode.
+            ''' </summary>
             Public IFBIsFifo As Boolean
+            ''' <summary>
+            ''' Determines if channel B is in FIFO target mode.
+            ''' </summary>
             Public IFBIsFifoTar As Boolean
+            ''' <summary>
+            ''' Determines if channel B is in fast serial mode.
+            ''' </summary>
             Public IFBIsFastSer As Boolean
+            ''' <summary>
+            ''' Determines if channel B loads the VCP driver.
+            ''' </summary>
             Public BIsVCP As Boolean = True
         End Class
 
+        ''' <summary>
+        ''' EEPROM для FT232R и FT245R.
+        ''' </summary>
         Public Class FT232R_EEPROM_STRUCTURE : Inherits FT_EEPROM_DATA
+            ''' <summary>
+            ''' Disables the FT232R internal clock source.
+            ''' If the device has external oscillator enabled it must have an external oscillator fitted to function.
+            ''' </summary>
             Public UseExtOsc As Boolean
+            ''' <summary>
+            ''' Enables high current IOs.
+            ''' </summary>
             Public HighDriveIOs As Boolean
+            ''' <summary>
+            ''' Sets the endpoint size. This should always be set to 64.
+            ''' </summary>
             Public EndpointSize As Byte = 64
+            ''' <summary>
+            ''' Determines if IOs are pulled down when the device is in suspend.
+            ''' </summary>
             Public PullDownEnable As Boolean
+            ''' <summary>
+            ''' Determines if the serial number is enabled.
+            ''' </summary>
             Public SerNumEnable As Boolean = True
+            ''' <summary>
+            ''' Inverts the sense of the TXD line.
+            ''' </summary>
             Public InvertTXD As Boolean
+            ''' <summary>
+            ''' Inverts the sense of the RXD line.
+            ''' </summary>
             Public InvertRXD As Boolean
+            ''' <summary>
+            ''' Inverts the sense of the RTS line.
+            ''' </summary>
             Public InvertRTS As Boolean
+            ''' <summary>
+            ''' Inverts the sense of the CTS line.
+            ''' </summary>
             Public InvertCTS As Boolean
+            ''' <summary>
+            ''' Inverts the sense of the DTR line.
+            ''' </summary>
             Public InvertDTR As Boolean
+            ''' <summary>
+            ''' Inverts the sense of the DSR line.
+            ''' </summary>
             Public InvertDSR As Boolean
+            ''' <summary>
+            ''' Inverts the sense of the DCD line.
+            ''' </summary>
             Public InvertDCD As Boolean
+            ''' <summary>
+            ''' Inverts the sense of the RI line.
+            ''' </summary>
             Public InvertRI As Boolean
-            Public Cbus0 As Byte = 5
-            Public Cbus1 As Byte = 5
-            Public Cbus2 As Byte = 5
-            Public Cbus3 As Byte = 5
-            Public Cbus4 As Byte = 5
+            Public Cbus0 As FT_CBUS_OPTIONS = FT_CBUS_OPTIONS.FT_CBUS_SLEEP
+            Public Cbus1 As FT_CBUS_OPTIONS = FT_CBUS_OPTIONS.FT_CBUS_SLEEP
+            Public Cbus2 As FT_CBUS_OPTIONS = FT_CBUS_OPTIONS.FT_CBUS_SLEEP
+            Public Cbus3 As FT_CBUS_OPTIONS = FT_CBUS_OPTIONS.FT_CBUS_SLEEP
+            Public Cbus4 As FT_CBUS_OPTIONS = FT_CBUS_OPTIONS.FT_CBUS_SLEEP
+            ''' <summary>
+            ''' Determines if the VCP driver is loaded.
+            ''' </summary>
             Public RIsD2XX As Boolean
         End Class
 
         Public Class FT2232H_EEPROM_STRUCTURE : Inherits FT_EEPROM_DATA
+            ''' <summary>
+            ''' Determines if IOs are pulled down when the device is in suspend.
+            ''' </summary>
             Public PullDownEnable As Boolean
+            ''' <summary>
+            ''' Determines if the serial number is enabled.
+            ''' </summary>
             Public SerNumEnable As Boolean = True
+            ''' <summary>
+            ''' Determines if AL pins have a slow slew rate.
+            ''' </summary>
             Public ALSlowSlew As Boolean
+            ''' <summary>
+            ''' Determines if the AL pins have a Schmitt input.
+            ''' </summary>
             Public ALSchmittInput As Boolean
+            ''' <summary>
+            ''' Determines the AL pins drive current in mA.
+            ''' </summary>
             Public ALDriveCurrent As FT_DRIVE_CURRENT = FT_DRIVE_CURRENT.FT_DRIVE_CURRENT_4MA
+            ''' <summary>
+            ''' Determines if AH pins have a slow slew rate.
+            ''' </summary>
             Public AHSlowSlew As Boolean
+            ''' <summary>
+            ''' Determines if the AH pins have a Schmitt input.
+            ''' </summary>
             Public AHSchmittInput As Boolean
+            ''' <summary>
+            ''' Determines the AH pins drive current in mA.
+            ''' </summary>
             Public AHDriveCurrent As FT_DRIVE_CURRENT = FT_DRIVE_CURRENT.FT_DRIVE_CURRENT_4MA
+            ''' <summary>
+            ''' Determines if BL pins have a slow slew rate.
+            ''' </summary>
             Public BLSlowSlew As Boolean
+            ''' <summary>
+            ''' Determines if the BL pins have a Schmitt input.
+            ''' </summary>
             Public BLSchmittInput As Boolean
+            ''' <summary>
+            ''' Determines the BL pins drive current in mA.
+            ''' </summary>
             Public BLDriveCurrent As FT_DRIVE_CURRENT = FT_DRIVE_CURRENT.FT_DRIVE_CURRENT_4MA
+            ''' <summary>
+            ''' Determines if BH pins have a slow slew rate.
+            ''' </summary>
             Public BHSlowSlew As Boolean
+            ''' <summary>
+            ''' Determines if the BH pins have a Schmitt input.
+            ''' </summary>
             Public BHSchmittInput As Boolean
+            ''' <summary>
+            ''' Determines the BH pins drive current in mA.
+            ''' </summary>
             Public BHDriveCurrent As FT_DRIVE_CURRENT = FT_DRIVE_CURRENT.FT_DRIVE_CURRENT_4MA
+            ''' <summary>
+            ''' Determines if channel A is in FIFO mode.
+            ''' </summary>
             Public IFAIsFifo As Boolean
+            ''' <summary>
+            ''' Determines if channel A is in FIFO target mode.
+            ''' </summary>
             Public IFAIsFifoTar As Boolean
+            ''' <summary>
+            ''' Determines if channel A is in fast serial mode.
+            ''' </summary>
             Public IFAIsFastSer As Boolean
+            ''' <summary>
+            ''' Determines if channel A loads the VCP driver.
+            ''' </summary>
             Public AIsVCP As Boolean = True
+            ''' <summary>
+            ''' Determines if channel B is in FIFO mode.
+            ''' </summary>
             Public IFBIsFifo As Boolean
+            ''' <summary>
+            ''' Determines if channel B is in FIFO target mode.
+            ''' </summary>
             Public IFBIsFifoTar As Boolean
+            ''' <summary>
+            ''' Determines if channel B is in fast serial mode.
+            ''' </summary>
             Public IFBIsFastSer As Boolean
+            ''' <summary>
+            ''' Determines if channel B loads the VCP driver.
+            ''' </summary>
             Public BIsVCP As Boolean = True
+            ''' <summary>
+            ''' For self-powered designs, keeps the FT2232H in low power state until BCBUS7 is high.
+            ''' </summary>
             Public PowerSaveEnable As Boolean
         End Class
 
         Public Class FT4232H_EEPROM_STRUCTURE : Inherits FT_EEPROM_DATA
+            ''' <summary>
+            ''' Determines if IOs are pulled down when the device is in suspend.
+            ''' </summary>
             Public PullDownEnable As Boolean
+            ''' <summary>
+            ''' Determines if the serial number is enabled.
+            ''' </summary>
             Public SerNumEnable As Boolean = True
+            ''' <summary>
+            ''' Determines if A pins have a slow slew rate.
+            ''' </summary>
             Public ASlowSlew As Boolean
+            ''' <summary>
+            ''' Determines if the A pins have a Schmitt input.
+            ''' </summary>
             Public ASchmittInput As Boolean
+            ''' <summary>
+            ''' Determines the A pins drive current in mA.
+            ''' </summary>
             Public ADriveCurrent As FT_DRIVE_CURRENT = FT_DRIVE_CURRENT.FT_DRIVE_CURRENT_4MA
+            ''' <summary>
+            ''' Determines if B pins have a slow slew rate.
+            ''' </summary>
             Public BSlowSlew As Boolean
+            ''' <summary>
+            ''' Determines if the B pins have a Schmitt input.
+            ''' </summary>
             Public BSchmittInput As Boolean
+            ''' <summary>
+            ''' Determines the B pins drive current in mA.
+            ''' </summary>
             Public BDriveCurrent As FT_DRIVE_CURRENT = FT_DRIVE_CURRENT.FT_DRIVE_CURRENT_4MA
+            ''' <summary>
+            ''' Determines if C pins have a slow slew rate.
+            ''' </summary>
             Public CSlowSlew As Boolean
+            ''' <summary>
+            ''' Determines if the C pins have a Schmitt input.
+            ''' </summary>
             Public CSchmittInput As Boolean
+            ''' <summary>
+            ''' Determines the C pins drive current in mA.
+            ''' </summary>
             Public CDriveCurrent As FT_DRIVE_CURRENT = FT_DRIVE_CURRENT.FT_DRIVE_CURRENT_4MA
+            ''' <summary>
+            ''' Determines if D pins have a slow slew rate.
+            ''' </summary>
             Public DSlowSlew As Boolean
+            ''' <summary>
+            ''' Determines if the D pins have a Schmitt input.
+            ''' </summary>
             Public DSchmittInput As Boolean
+            ''' <summary>
+            ''' Determines the D pins drive current in mA.
+            ''' </summary>
             Public DDriveCurrent As FT_DRIVE_CURRENT = FT_DRIVE_CURRENT.FT_DRIVE_CURRENT_4MA
+            ''' <summary>
+            ''' RI of port A acts as RS485 transmit enable (TXDEN).
+            ''' </summary>
             Public ARIIsTXDEN As Boolean
+            ''' <summary>
+            ''' RI of port B acts as RS485 transmit enable (TXDEN).
+            ''' </summary>
             Public BRIIsTXDEN As Boolean
+            ''' <summary>
+            ''' RI of port C acts as RS485 transmit enable (TXDEN).
+            ''' </summary>
             Public CRIIsTXDEN As Boolean
+            ''' <summary>
+            ''' RI of port D acts as RS485 transmit enable (TXDEN).
+            ''' </summary>
             Public DRIIsTXDEN As Boolean
+            ''' <summary>
+            ''' Determines if channel A loads the VCP driver.
+            ''' </summary>
             Public AIsVCP As Boolean = True
+            ''' <summary>
+            ''' Determines if channel B loads the VCP driver.
+            ''' </summary>
             Public BIsVCP As Boolean = True
+            ''' <summary>
+            ''' Determines if channel C loads the VCP driver.
+            ''' </summary>
             Public CIsVCP As Boolean = True
+            ''' <summary>
+            ''' Determines if channel D loads the VCP driver.
+            ''' </summary>
             Public DIsVCP As Boolean = True
         End Class
 
         Public Class FT232H_EEPROM_STRUCTURE : Inherits FT_EEPROM_DATA
+            ''' <summary>
+            ''' Determines if IOs are pulled down when the device is in suspend.
+            ''' </summary>
             Public PullDownEnable As Boolean
+            ''' <summary>
+            ''' Determines if the serial number is enabled.
+            ''' </summary>
             Public SerNumEnable As Boolean = True
+            ''' <summary>
+            ''' Determines if AC pins have a slow slew rate.
+            ''' </summary>
             Public ACSlowSlew As Boolean
+            ''' <summary>
+            ''' Determines if the AC pins have a Schmitt input.
+            ''' </summary>
             Public ACSchmittInput As Boolean
+            ''' <summary>
+            ''' Determines the AC pins drive current in mA.
+            ''' </summary>
             Public ACDriveCurrent As FT_DRIVE_CURRENT = FT_DRIVE_CURRENT.FT_DRIVE_CURRENT_4MA
+            ''' <summary>
+            ''' Determines if AD pins have a slow slew rate.
+            ''' </summary>
             Public ADSlowSlew As Boolean
+            ''' <summary>
+            ''' Determines if the AD pins have a Schmitt input.
+            ''' </summary>
             Public ADSchmittInput As Boolean
+            ''' <summary>
+            ''' Determines the AD pins drive current in mA.
+            ''' </summary>
             Public ADDriveCurrent As FT_DRIVE_CURRENT = FT_DRIVE_CURRENT.FT_DRIVE_CURRENT_4MA
-            Public Cbus0 As Byte
-            Public Cbus1 As Byte
-            Public Cbus2 As Byte
-            Public Cbus3 As Byte
-            Public Cbus4 As Byte
-            Public Cbus5 As Byte
-            Public Cbus6 As Byte
-            Public Cbus7 As Byte
-            Public Cbus8 As Byte
-            Public Cbus9 As Byte
+            ''' <summary>
+            ''' Sets the function of the CBUS0 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus0 As FT_232H_CBUS_OPTIONS = FT_232H_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS1 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus1 As FT_232H_CBUS_OPTIONS = FT_232H_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS2 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus2 As FT_232H_CBUS_OPTIONS = FT_232H_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS3 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus3 As FT_232H_CBUS_OPTIONS = FT_232H_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS4 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus4 As FT_232H_CBUS_OPTIONS = FT_232H_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS5 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus5 As FT_232H_CBUS_OPTIONS = FT_232H_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS6 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus6 As FT_232H_CBUS_OPTIONS = FT_232H_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS7 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus7 As FT_232H_CBUS_OPTIONS = FT_232H_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS8 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus8 As FT_232H_CBUS_OPTIONS = FT_232H_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS9 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus9 As FT_232H_CBUS_OPTIONS = FT_232H_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Determines if the device is in FIFO mode.
+            ''' </summary>
             Public IsFifo As Boolean
+            ''' <summary>
+            ''' Determines if the device is in FIFO target mode.
+            ''' </summary>
             Public IsFifoTar As Boolean
+            ''' <summary>
+            ''' Determines if the device is in fast serial mode.
+            ''' </summary>
             Public IsFastSer As Boolean
+            ''' <summary>
+            ''' Determines if the device is in FT1248 mode.
+            ''' </summary>
             Public IsFT1248 As Boolean
+            ''' <summary>
+            ''' Determines FT1248 mode clock polarity.
+            ''' </summary>
             Public FT1248Cpol As Boolean
+            ''' <summary>
+            ''' Determines if data is ent MSB (0) or LSB (1) in FT1248 mode.
+            ''' </summary>
             Public FT1248Lsb As Boolean
+            ''' <summary>
+            ''' Determines if FT1248 mode uses flow control.
+            ''' </summary>
             Public FT1248FlowControl As Boolean
+            ''' <summary>
+            ''' Determines if the VCP driver is loaded.
+            ''' </summary>
             Public IsVCP As Boolean = True
+            ''' <summary>
+            ''' For self-powered designs, keeps the FT232H in low power state until ACBUS7 is high.
+            ''' </summary>
             Public PowerSaveEnable As Boolean
         End Class
 
         Public Class FT_XSERIES_EEPROM_STRUCTURE : Inherits FT_EEPROM_DATA
+            ''' <summary>
+            ''' Determines if IOs are pulled down when the device Is in suspend.
+            ''' </summary>
             Public PullDownEnable As Boolean
+            ''' <summary>
+            ''' Determines if the serial number is enabled.
+            ''' </summary>
             Public SerNumEnable As Boolean = True
+            ''' <summary>
+            ''' Determines if the USB version number is enabled.
+            ''' </summary>
             Public USBVersionEnable As Boolean = True
-            Public USBVersion As UShort = 512US
+            ''' <summary>
+            ''' The USB version number.
+            ''' </summary>
+            Public USBVersion As USB_VERSION = USB_VERSION.VER_20
+            ''' <summary>
+            ''' Determines if AC pins have a slow slew rate.
+            ''' </summary>
             Public ACSlowSlew As Byte
+            ''' <summary>
+            ''' Determines if the AC pins have a Schmitt input.
+            ''' </summary>
             Public ACSchmittInput As Byte
-            Public ACDriveCurrent As FT_DRIVE_CURRENT
+            ''' <summary>
+            ''' Determines the AC pins drive current in mA.
+            ''' </summary>
+            Public ACDriveCurrent As FT_DRIVE_CURRENT = FT_DRIVE_CURRENT.FT_DRIVE_CURRENT_4MA
+            ''' <summary>
+            ''' Determines if AD pins have a slow slew rate.
+            ''' </summary>
             Public ADSlowSlew As Byte
+            ''' <summary>
+            ''' Determines if AD pins have a schmitt input.
+            ''' </summary>
             Public ADSchmittInput As Byte
-            Public ADDriveCurrent As FT_DRIVE_CURRENT
-            Public Cbus0 As Byte
-            Public Cbus1 As Byte
-            Public Cbus2 As Byte
-            Public Cbus3 As Byte
-            Public Cbus4 As Byte
-            Public Cbus5 As Byte
-            Public Cbus6 As Byte
+            ''' <summary>
+            ''' Determines the AD pins drive current in mA.
+            ''' </summary>
+            Public ADDriveCurrent As FT_DRIVE_CURRENT = FT_DRIVE_CURRENT.FT_DRIVE_CURRENT_4MA
+            ''' <summary>
+            ''' Sets the function of the CBUS0 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus0 As FT_XSERIES_CBUS_OPTIONS = FT_XSERIES_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS1 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus1 As FT_XSERIES_CBUS_OPTIONS = FT_XSERIES_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS2 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus2 As FT_XSERIES_CBUS_OPTIONS = FT_XSERIES_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS3 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus3 As FT_XSERIES_CBUS_OPTIONS = FT_XSERIES_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS4 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus4 As FT_XSERIES_CBUS_OPTIONS = FT_XSERIES_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS5 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus5 As FT_XSERIES_CBUS_OPTIONS = FT_XSERIES_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Sets the function of the CBUS6 pin for FT232H devices.
+            ''' </summary>
+            Public Cbus6 As FT_XSERIES_CBUS_OPTIONS = FT_XSERIES_CBUS_OPTIONS.FT_CBUS_TRISTATE
+            ''' <summary>
+            ''' Inverts the sense of the TXD line.
+            ''' </summary>
             Public InvertTXD As Byte
+            ''' <summary>
+            ''' Inverts the sense of the RXD line.
+            ''' </summary>
             Public InvertRXD As Byte
+            ''' <summary>
+            ''' Inverts the sense of the RTS line.
+            ''' </summary>
             Public InvertRTS As Byte
+            ''' <summary>
+            ''' Inverts the sense of the CTS line.
+            ''' </summary>
             Public InvertCTS As Byte
+            ''' <summary>
+            ''' Inverts the sense of the DTR line.
+            ''' </summary>
             Public InvertDTR As Byte
+            ''' <summary>
+            ''' Inverts the sense of the DSR line.
+            ''' </summary>
             Public InvertDSR As Byte
+            ''' <summary>
+            ''' Inverts the sense of the DCD line.
+            ''' </summary>
             Public InvertDCD As Byte
+            ''' <summary>
+            ''' Inverts the sense of the RI line.
+            ''' </summary>
             Public InvertRI As Byte
+            ''' <summary>
+            ''' Determines whether the Battery Charge Detection option is enabled.
+            ''' </summary>
             Public BCDEnable As Byte
+            ''' <summary>
+            ''' Asserts the power enable signal on CBUS when charging port detected.
+            ''' </summary>
             Public BCDForceCbusPWREN As Byte
+            ''' <summary>
+            ''' Forces the device never to go into sleep mode.
+            ''' </summary>
             Public BCDDisableSleep As Byte
+            ''' <summary>
+            ''' I2C slave device address.
+            ''' </summary>
             Public I2CSlaveAddress As UShort
+            ''' <summary>
+            ''' I2C device ID.
+            ''' </summary>
             Public I2CDeviceId As UInteger
+            ''' <summary>
+            ''' Disable I2C Schmitt trigger.
+            ''' </summary>
             Public I2CDisableSchmitt As Byte
+            ''' <summary>
+            ''' FT1248 clock polarity - clock idle high (1) or clock idle low (0).
+            ''' </summary>
             Public FT1248Cpol As Byte
+            ''' <summary>
+            ''' FT1248 data is LSB (1) or MSB (0).
+            ''' </summary>
             Public FT1248Lsb As Byte
+            ''' <summary>
+            ''' FT1248 flow control enable.
+            ''' </summary>
             Public FT1248FlowControl As Byte
+            ''' <summary>
+            ''' Enable RS485 Echo Suppression.
+            ''' </summary>
             Public RS485EchoSuppress As Byte
+            ''' <summary>
+            ''' Enable Power Save mode.
+            ''' </summary>
             Public PowerSaveEnable As Byte
+            ''' <summary>
+            ''' Determines whether the VCP driver is loaded.
+            ''' </summary>
             Public IsVCP As Byte
         End Class
 
@@ -1428,6 +1935,52 @@ Namespace FTD2XX_NET
             FT_DRIVE_CURRENT_8MA = 8
             FT_DRIVE_CURRENT_12MA = 12
             FT_DRIVE_CURRENT_16MA = 16
+        End Enum
+
+        Public Enum FT_232H_CBUS_OPTIONS As Byte
+            FT_CBUS_TRISTATE = 0
+            FT_CBUS_RXLED = 1
+            FT_CBUS_TXLED = &H2
+            FT_CBUS_TXRXLED = &H3
+            FT_CBUS_PWREN = &H4
+            FT_CBUS_SLEEP = &H5
+            FT_CBUS_DRIVE_0 = &H6
+            FT_CBUS_DRIVE_1 = &H7
+            FT_CBUS_IOMODE = &H8
+            FT_CBUS_TXDEN = &H9
+            FT_CBUS_CLK30 = &HA
+            FT_CBUS_CLK15 = &HB
+            FT_CBUS_CLK7_5 = &HC
+        End Enum
+
+        Public Enum FT_XSERIES_CBUS_OPTIONS As Byte
+            FT_CBUS_TRISTATE = &H0
+            FT_CBUS_RXLED = &H1
+            FT_CBUS_TXLED = &H2
+            FT_CBUS_TXRXLED = &H3
+            FT_CBUS_PWREN = &H4
+            FT_CBUS_SLEEP = &H5
+            FT_CBUS_Drive_0 = &H6
+            FT_CBUS_Drive_1 = &H7
+            FT_CBUS_GPIO = &H8
+            FT_CBUS_TXDEN = &H9
+            FT_CBUS_CLK24MHz = &HA
+            FT_CBUS_CLK12MHz = &HB
+            FT_CBUS_CLK6MHz = &HC
+            FT_CBUS_BCD_Charger = &HD
+            FT_CBUS_BCD_Charger_N = &HE
+            FT_CBUS_I2C_TXE = &HF
+            FT_CBUS_I2C_RXF = &H10
+            FT_CBUS_VBUS_Sense = &H11
+            FT_CBUS_BitBang_WR = &H12
+            FT_CBUS_BitBang_RD = &H13
+            FT_CBUS_Time_Stamp = &H14
+            FT_CBUS_Keep_Awake = &H15
+        End Enum
+
+        Public Enum USB_VERSION As UShort
+            VER_11 = &H110
+            VER_20 = &H200
         End Enum
 
 #End Region '/ПЕРЕЧИСЛЕНИЯ
