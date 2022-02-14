@@ -26,7 +26,7 @@ Namespace FTD2XX_NET
         ''' <param name="index">Индекс устройства.</param>
         Public Sub New(index As Integer)
             Me.New()
-            OpenByIndex(CUInt(index))
+            OpenByIndex(index)
         End Sub
 
         ''' <summary>
@@ -38,14 +38,14 @@ Namespace FTD2XX_NET
             OpenBySerialNumber(serial)
         End Sub
 
-        ''' <summary>
-        ''' Конструктор, который сразу открывает заданное устройство по размещению.
-        ''' </summary>
-        ''' <param name="location ">Размещение устройства.</param>
-        Public Sub New(location As UInteger)
-            Me.New()
-            OpenByLocation(location)
-        End Sub
+        '''' <summary>
+        '''' Конструктор, который сразу открывает заданное устройство по размещению.
+        '''' </summary>
+        '''' <param name="location ">Размещение устройства.</param>
+        'Public Sub New(location As UInteger)
+        '    Me.New()
+        '    OpenByLocation(location)
+        'End Sub
 
         ''' <summary>
         ''' Освобождает библиотеку ftd2xx.
@@ -53,7 +53,6 @@ Namespace FTD2XX_NET
         Public Shared Sub UnloadLibrary()
             If FreeLibrary(Ftd2xxDllHandle) Then
                 _Ftd2xxDllHandle = CLOSED_HANDLE
-                Debug.WriteLine("Library unloaded.")
             End If
         End Sub
 
@@ -61,9 +60,6 @@ Namespace FTD2XX_NET
 
 #Region "КОНСТАНТЫ"
 
-        Public Const FT_OPEN_BY_SERIAL_NUMBER As UInteger = 1UI
-        Public Const FT_OPEN_BY_DESCRIPTION As UInteger = 2UI
-        Public Const FT_OPEN_BY_LOCATION As UInteger = 4UI
         Public Const FT_DEFAULT_BAUD_RATE As UInteger = 9600UI
         Public Const FT_COM_PORT_NOT_ASSIGNED As Integer = -1
         Public Const FT_DEFAULT_DEADMAN_TIMEOUT As UInteger = 5000UI
@@ -140,7 +136,7 @@ Namespace FTD2XX_NET
         ''' </summary>
         Public ReadOnly Property DeviceType As FT_DEVICE
             Get
-                If (_DeviceType = FT_DEVICE.FT_DEVICE_UNKNOWN) Then
+                If (_DeviceType = FT_DEVICE.FT_DEVICE_UNKNOWN) AndAlso IsLibraryLoaded AndAlso IsDeviceOpen Then
                     Dim devType As FT_DEVICE = FT_DEVICE.FT_DEVICE_UNKNOWN
                     Dim num As UInteger = 0
                     Dim sn As Byte() = New Byte(15) {}
@@ -255,9 +251,9 @@ Namespace FTD2XX_NET
         ''' <remarks>
         ''' Это не гарантирует открытие заданного устройства.
         ''' </remarks>
-        Public Sub OpenByIndex(index As UInteger)
+        Public Sub OpenByIndex(index As Integer)
             Dim dlg As OpenDelegate = CType(Marshal.GetDelegateForFunctionPointer(New IntPtr(Pft_Open), GetType(OpenDelegate)), OpenDelegate)
-            Dim status As FT_STATUS = dlg(index, FtHandle)
+            Dim status As FT_STATUS = dlg(CUInt(index), FtHandle)
             If (status = FT_STATUS.FT_OK) Then
                 Dim uWordLength As Byte = 8
                 Dim uStopBits As Byte = 0
@@ -287,7 +283,7 @@ Namespace FTD2XX_NET
         ''' </summary>
         Public Sub OpenBySerialNumber(serialnumber As String)
             Dim dlg As OpenExDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(Pft_OpenEx, IntPtr), GetType(OpenExDelegate)), OpenExDelegate)
-            Dim status As FT_STATUS = dlg(serialnumber, FT_OPEN_BY_SERIAL_NUMBER, FtHandle)
+            Dim status As FT_STATUS = dlg(serialnumber, FT_OPEN_BY.SERIAL_NUMBER, FtHandle)
             If (status = FT_STATUS.FT_OK) Then
                 Dim uWordLength As Byte = 8
                 Dim uStopBits As Byte = 0
@@ -317,7 +313,7 @@ Namespace FTD2XX_NET
         ''' </summary>
         Public Sub OpenByDescription(description As String)
             Dim dlg As OpenExDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(Pft_OpenEx, IntPtr), GetType(OpenExDelegate)), OpenExDelegate)
-            Dim status As FT_STATUS = dlg(description, FT_OPEN_BY_DESCRIPTION, FtHandle)
+            Dim status As FT_STATUS = dlg(description, FT_OPEN_BY.DESCRIPTION, FtHandle)
             If (status = FT_STATUS.FT_OK) Then
                 Dim uWordLength As Byte = 8
                 Dim uStopBits As Byte = 0
@@ -347,7 +343,7 @@ Namespace FTD2XX_NET
         ''' </summary>
         Public Sub OpenByLocation(location As UInteger)
             Dim dlg As OpenExLocDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(Pft_OpenEx, IntPtr), GetType(OpenExLocDelegate)), OpenExLocDelegate)
-            Dim status As FT_STATUS = dlg(location, FT_OPEN_BY_LOCATION, FtHandle)
+            Dim status As FT_STATUS = dlg(location, FT_OPEN_BY.LOCATION, FtHandle)
             If (status = FT_STATUS.FT_OK) Then
                 Dim uWordLength As Byte = 8
                 Dim uStopBits As Byte = 0
@@ -475,24 +471,24 @@ Namespace FTD2XX_NET
         ''' <summary>
         ''' Возвращает текущее состояние модема (битовую маску).
         ''' </summary>
-        Public Function GetModemStatus() As Byte
+        Public Function GetModemStatus() As FT_MODEM_STATUS
             Dim s As UInteger = 0UI
             Dim dlg As GetModemStatusDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(Pft_GetModemStatus, IntPtr), GetType(GetModemStatusDelegate)), GetModemStatusDelegate)
-            Dim status As FT_STATUS = dlg(FtHandle, s)
+            Dim status As FT_STATUS = dlg.Invoke(FtHandle, s)
             CheckErrors(status)
-            Dim modemStatus As Byte = Convert.ToByte(s And &HFF)
+            Dim modemStatus As FT_MODEM_STATUS = CType(s And &HFF, FT_MODEM_STATUS)
             Return modemStatus
         End Function
 
         ''' <summary>
         ''' Возвращает текущее состояние линии (битовую маску).
         ''' </summary>
-        Public Function GetLineStatus() As Byte
+        Public Function GetLineStatus() As FT_LINE_STATUS
             Dim s As UInteger = 0UI
             Dim dlg As GetModemStatusDelegate = CType(Marshal.GetDelegateForFunctionPointer(CType(Pft_GetModemStatus, IntPtr), GetType(GetModemStatusDelegate)), GetModemStatusDelegate)
-            Dim status As FT_STATUS = dlg(FtHandle, s)
+            Dim status As FT_STATUS = dlg.Invoke(FtHandle, s)
             CheckErrors(status)
-            Dim lineStatus As Byte = Convert.ToByte((s >> 8) And &HFF)
+            Dim lineStatus As FT_LINE_STATUS = CType((s >> 8) And &HFF, FT_LINE_STATUS)
             Return lineStatus
         End Function
 
@@ -958,7 +954,7 @@ Namespace FTD2XX_NET
             Dim shift As Integer = 4 + index
             bv(1 << shift) = value
             Dim mask As Byte = CByte(bv.Data Xor &HFF)
-            SetBitMode(mask, FT_BIT_MODES.FT_BIT_MODE_ASYNC_BITBANG) 
+            SetBitMode(mask, FT_BIT_MODES.FT_BIT_MODE_ASYNC_BITBANG) 'TODO Проверить выставление GPIO!!!
         End Sub
 
         ''' <summary>
@@ -1113,11 +1109,30 @@ Namespace FTD2XX_NET
         End Property
         Private Shared _Pft_CreateDeviceInfoList As Integer = NOT_INIT
 
+        Private Shared ReadOnly Property Pft_Close As Integer
+            Get
+                If (_Pft_Close = NOT_INIT) Then
+                    _Pft_Close = GetProcAddress(Ftd2xxDllHandle, "FT_Close")
+                End If
+                Return _Pft_Close
+            End Get
+        End Property
+        Private Shared _Pft_Close As Integer = NOT_INIT
+
+        Private Shared ReadOnly Property Pft_GetComPortNumber As Integer
+            Get
+                If (_Pft_GetComPortNumber = NOT_INIT) Then
+                    _Pft_GetComPortNumber = GetProcAddress(Ftd2xxDllHandle, "FT_GetComPortNumber")
+                End If
+                Return _Pft_GetComPortNumber
+            End Get
+        End Property
+        Private Shared _Pft_GetComPortNumber As Integer = NOT_INIT
+
         'Статические поля:
         Private Shared Pft_GetDeviceInfoDetail As Integer = NOT_INIT
         Private Shared Pft_Open As Integer = NOT_INIT
         Private Shared Pft_OpenEx As Integer = NOT_INIT
-        Private Shared Pft_Close As Integer = NOT_INIT
         Private Shared Pft_Read As Integer = NOT_INIT
         Private Shared Pft_Write As Integer = NOT_INIT
         Private Shared Pft_GetQueueStatus As Integer = NOT_INIT
@@ -1147,7 +1162,6 @@ Namespace FTD2XX_NET
         Private Shared Pft_SetDeadmanTimeout As Integer = NOT_INIT
         Private Shared Pft_SetChars As Integer = NOT_INIT
         Private Shared Pft_SetEventNotification As Integer = NOT_INIT
-        Private Shared Pft_GetComPortNumber As Integer = NOT_INIT
         Private Shared Pft_SetLatencyTimer As Integer = NOT_INIT
         Private Shared Pft_GetLatencyTimer As Integer = NOT_INIT
         Private Shared Pft_SetBitMode As Integer = NOT_INIT
@@ -1166,7 +1180,7 @@ Namespace FTD2XX_NET
         Private Delegate Function OpenDelegate(index As UInteger, ByRef ftHandle As Integer) As FT_STATUS
 
         <UnmanagedFunctionPointer(CallingConvention.StdCall)>
-        Private Delegate Function OpenExDelegate(devstring As String, dwFlags As UInteger, ByRef ftHandle As Integer) As FT_STATUS
+        Private Delegate Function OpenExDelegate(devstring As String, dwFlags As FT_OPEN_BY, ByRef ftHandle As Integer) As FT_STATUS
 
         <UnmanagedFunctionPointer(CallingConvention.StdCall)>
         Private Delegate Function OpenExLocDelegate(devloc As UInteger, dwFlags As UInteger, ByRef ftHandle As Integer) As FT_STATUS
@@ -1301,9 +1315,6 @@ Namespace FTD2XX_NET
             If (Pft_OpenEx = NOT_INIT) Then
                 Pft_OpenEx = GetProcAddress(Ftd2xxDllHandle, "FT_OpenEx")
             End If
-            If (Pft_Close = NOT_INIT) Then
-                Pft_Close = GetProcAddress(Ftd2xxDllHandle, "FT_Close")
-            End If
             If (Pft_Read = NOT_INIT) Then
                 Pft_Read = GetProcAddress(Ftd2xxDllHandle, "FT_Read")
             End If
@@ -1391,9 +1402,6 @@ Namespace FTD2XX_NET
             If (Pft_SetEventNotification = NOT_INIT) Then
                 Pft_SetEventNotification = GetProcAddress(Ftd2xxDllHandle, "FT_SetEventNotification")
             End If
-            If (Pft_GetComPortNumber = NOT_INIT) Then
-                Pft_GetComPortNumber = GetProcAddress(Ftd2xxDllHandle, "FT_GetComPortNumber")
-            End If
             If (Pft_SetLatencyTimer = NOT_INIT) Then
                 Pft_SetLatencyTimer = GetProcAddress(Ftd2xxDllHandle, "FT_SetLatencyTimer")
             End If
@@ -1442,6 +1450,12 @@ Namespace FTD2XX_NET
             FT_OTHER_ERROR
         End Enum
 
+        Public Enum FT_OPEN_BY As UInteger
+            SERIAL_NUMBER = 1UI
+            DESCRIPTION = 2UI
+            LOCATION = 4UI
+        End Enum
+
         Public Enum FT_ERROR
             FT_NO_ERROR
             FT_INCORRECT_DEVICE
@@ -1467,38 +1481,84 @@ Namespace FTD2XX_NET
             FT_PARITY_SPACE
         End Enum
 
+        <Flags()>
         Public Enum FT_FLOW_CONTROL As UShort
-            FT_FLOW_NONE = 0US
-            FT_FLOW_RTS_CTS = 256US
-            FT_FLOW_DTR_DSR = 512US
-            FT_FLOW_XON_XOFF = 1024US
+            FT_FLOW_NONE = &H0
+            FT_FLOW_RTS_CTS = &H100
+            FT_FLOW_DTR_DSR = &H200
+            FT_FLOW_XON_XOFF = &H400
         End Enum
 
+        ''' <summary>
+        ''' Purge buffer constant definitions.
+        ''' </summary>
         <Flags()>
         Public Enum FT_PURGE As Byte
+            ''' <summary>
+            ''' Очистить приёмный буфер.
+            ''' </summary>
             FT_PURGE_RX = 1
+            ''' <summary>
+            ''' Очистить передающий буфер.
+            ''' </summary>
             FT_PURGE_TX = 2
         End Enum
 
+        <Flags()>
         Public Enum FT_MODEM_STATUS As Byte
+            None = 0
+            ''' <summary>
+            ''' Состояние модема "Clear To Send".
+            ''' </summary>
             FT_CTS = &H10
+            ''' <summary>
+            ''' Состояние модема "Data Set Ready".
+            ''' </summary>
             FT_DSR = &H20
+            ''' <summary>
+            ''' Состояние модема "Ring Indicator".
+            ''' </summary>
             FT_RI = &H40
+            ''' <summary>
+            ''' Состояние модема "Data Carrier Detect".
+            ''' </summary>
             FT_DCD = &H80
         End Enum
 
         <Flags()>
         Public Enum FT_LINE_STATUS As Byte
+            None = 0
+            ''' <summary>
+            ''' Статус линии "Overrun Error".
+            ''' </summary>
             FT_OE = 2
+            ''' <summary>
+            ''' Статус линии "Parity Error".
+            ''' </summary>
             FT_PE = 4
+            ''' <summary>
+            ''' Статус линии "Framing Error".
+            ''' </summary>
             FT_FE = 8
+            ''' <summary>
+            ''' Статус линии "Break Interrupt".
+            ''' </summary>
             FT_BI = 16
         End Enum
 
         <Flags()>
         Public Enum FT_EVENTS As UInteger
+            ''' <summary>
+            ''' Событие по получению управляющего символа.
+            ''' </summary>
             FT_EVENT_RXCHAR = 1UI
+            ''' <summary>
+            ''' Событие по изменению статуса модема.
+            ''' </summary>
             FT_EVENT_MODEM_STATUS = 2UI
+            ''' <summary>
+            ''' Событие по изменению статуса линии.
+            ''' </summary>
             FT_EVENT_LINE_STATUS = 4UI
         End Enum
 
@@ -1583,7 +1643,7 @@ Namespace FTD2XX_NET
             FT_DRIVE_CURRENT_16MA = 16
         End Enum
 
-        Public Enum FT_DEVICE
+        Public Enum FT_DEVICE As UInteger
             FT_DEVICE_BM = 0
             FT_DEVICE_AM
             FT_DEVICE_100AX
